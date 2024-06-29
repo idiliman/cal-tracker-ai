@@ -83,7 +83,7 @@ export default function ChatWrapper() {
         </div>
       </div>
       {/* Footer */}
-      <div className='absolute bottom-10 left-0 right-0 flex flex-col justify-between p-3 '>
+      <div className='absolute bottom-5 md:bottom-10 left-0 right-0 flex flex-col justify-between p-3 '>
         <div className='bg-gray-500 rounded-full  backdrop-blur-2xl md:bg-opacity-5 bg-opacity-10 border border-gray-100 w-[300px] h-[50px] mx-auto flex items-center justify-center'>
           <div className='flex items-center justify-evenly'>
             <Button disabled={isPending} variant='link'>
