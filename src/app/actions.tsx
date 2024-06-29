@@ -56,7 +56,7 @@ export async function askAi(imageUrl: string) {
 
       const splitContent = content.split('Short summary of the image:');
 
-      summary = splitContent[1].split('\n')[0].trim() ?? null;
+      summary = splitContent[1]?.split('\n')[0].trim() ?? null;
 
       const infoLines = content.split('\n').slice(1);
 
