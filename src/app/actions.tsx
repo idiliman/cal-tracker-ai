@@ -25,7 +25,7 @@ const InitialNutrient = ({
       <div className='flex items-end justify-end'>
         <div>
           <div className='text-center text-xs text-muted-foreground'>{todayDate}</div>
-          <div className='relative aspect-square md:w-[300px] w-[250] h-full blurred-img'>
+          <div className='relative aspect-square md:w-[300px] w-[250] h-full'>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageUrl}
