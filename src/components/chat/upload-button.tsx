@@ -18,8 +18,6 @@ export default function UploadButton({ onUploaded }: Props) {
 
   const { startUpload, permittedFileInfo, isUploading } = useUploadThing('imageUploader', {
     onClientUploadComplete: async (res) => {
-      await sleep(9000);
-
       onUploaded(res[0].url);
     },
     onUploadError: () => {
@@ -50,11 +48,11 @@ export default function UploadButton({ onUploaded }: Props) {
     <div {...getRootProps()}>
       <div className='flex items-center justify-center'>
         {!isUploading ? (
-          <PlusCircle className='h-10 w-10 text-zinc-700 hover:text-zinc-800 cursor-pointer hover:-translate-y-1 transition-all active:translate-y-0' />
+          <PlusCircle className='md:h-10 md:w-10 h-10 w-10 text-zinc-700 hover:text-zinc-800 cursor-pointer hover:-translate-y-1 transition-all active:translate-y-0' />
         ) : (
           <Progress
             value={progress}
-            className='h-10 w-10 text-zinc-700 hover:text-zinc-800 cursor-pointer hover:-translate-y-1 transition-all active:translate-y-0'
+            className='md:h-10 md:w-10 h-10 w-10 text-zinc-700 hover:text-zinc-800 cursor-pointer hover:-translate-y-1 transition-all active:translate-y-0'
           />
         )}
       </div>

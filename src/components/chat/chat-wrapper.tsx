@@ -11,9 +11,7 @@ import { ReactNode, useEffect, useState, useTransition } from 'react';
 import { askAi } from '@/app/actions';
 import useNutrientsStore, { UserNutrients } from '@/hooks/nutriens';
 import { readStreamableValue } from 'ai/rsc';
-import { cn, extractNumber } from '@/lib/utils';
-import { format } from 'date-fns';
-import Image from 'next/image';
+import { extractNumber } from '@/lib/utils';
 
 export default function ChatWrapper() {
   const [isClient, setIsClient] = useState(false);
@@ -68,8 +66,6 @@ export default function ChatWrapper() {
     });
   };
 
-  const todayDate = format(new Date(), 'yyyy-MM-dd');
-
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -81,30 +77,8 @@ export default function ChatWrapper() {
       {/* Content */}
       <div className='justify-between flex flex-col max-h-[calc(100vh-100px)] min-h-[calc(100vh-100px)] p-3'>
         <div className='flex flex-col space-y-9 py-2'>
-          <div className='flex flex-col space-y-3'>
-            {streamImageUrl && (
-              <div className={'flex items-end justify-end'}>
-                <div>
-                  <div className='text-center text-xs text-muted-foreground'>{todayDate}</div>
-                  <div className='relative aspect-square'>
-                    <Image
-                      src={streamImageUrl}
-                      alt='image'
-                      width={300}
-                      height={300}
-                      className='w-full h-full object-cover rounded-md'
-                    />
-                  </div>
-                </div>
-
-                <div className={cn('flex h-6 w-6 aspect-square ml-2')}>
-                  <User className='fill-zinc-300 h-3/4 w-3/4' />
-                </div>
-              </div>
-            )}
-            {userNutrients.length == 0 && !streamImageUrl && <InitialSkeleton />}
-            {isPending && streamUi === undefined ? <>thinking ✊🏻 🫸🏻 👍🏻 ... </> : streamUi}
-          </div>
+          {(isPending || streamUi === undefined) && <InitialSkeleton />}
+          {!isPending && streamUi && streamUi}
           <NutrientsWithImage />
         </div>
       </div>
@@ -115,7 +89,6 @@ export default function ChatWrapper() {
             <Button disabled={isPending} variant='link'>
               <UploadButton
                 onUploaded={(url) => {
-                  setStreamImageUrl(url);
                   handleSubmit(url);
                 }}
               />
@@ -132,7 +105,7 @@ export default function ChatWrapper() {
                 });
               }}
             >
-              <TimerResetIcon className='h-10 w-10 text-zinc-700 hover:text-zinc-800 cursor-pointer hover:-translate-y-1 transition-all active:translate-y-0' />
+              <TimerResetIcon className='md:h-10 md:w-10 h-5 w-10 text-zinc-700 hover:text-zinc-800 cursor-pointer hover:-translate-y-1 transition-all active:translate-y-0' />
             </Button>
             {totalNutrients.calories !== null && totalNutrients.protein !== null && (
               <div className='text-xs break-words whitespace-normal flex space-x-2 text-muted-foreground'>
@@ -174,7 +147,7 @@ const InitialSkeleton = () => {
             <div className='items-center justify-center flex pb-2'>
               <Skeleton className='w-[50px] h-4 rounded-md' />
             </div>
-            <div className='relative aspect-square w-[450px] h-full'>
+            <div className='relative aspect-square md:w-[450px]  w-[150px] h-full'>
               <Skeleton className='absolute top-0 left-0 right-0 bottom-0 h-full w-full' />
             </div>
           </div>
@@ -195,10 +168,10 @@ const InitialSkeleton = () => {
             </p>
             <div className='grid grid-cols-2 gap-4'>
               <div className='w-full h-full'>
-                <Skeleton className='h-[100px] w-[200px]' />
+                <Skeleton className='h-[100px] md:w-[200px] w-[150px]' />
               </div>
               <div className='w-full h-full'>
-                <Skeleton className='h-[100px] w-[200px]' />
+                <Skeleton className='h-[100px] md:w-[200px] w-[150px]' />
               </div>
             </div>
           </div>
