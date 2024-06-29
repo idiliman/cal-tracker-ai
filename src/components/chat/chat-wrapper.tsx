@@ -75,7 +75,7 @@ export default function ChatWrapper() {
   return (
     <Card className='h-full w-full overflow-auto'>
       {/* Content */}
-      <div className='justify-between flex flex-col max-h-[calc(100vh-100px)] min-h-[calc(100vh-100px)] p-3'>
+      <div className='justify-between flex flex-col md:max-h-[calc(100vh-100px)] md:min-h-[calc(100vh-100px)] h-[100vh] p-3'>
         <div className='flex flex-col space-y-9 py-2'>
           {(isPending || streamUi === undefined) && <InitialSkeleton />}
           {!isPending && streamUi && streamUi}
