@@ -15,10 +15,12 @@ const InitialNutrient = ({
   nutrients,
   summary,
   imageUrl,
+  invalidImage,
 }: {
   nutrients: any;
   summary: string | null;
   imageUrl: string;
+  invalidImage: boolean;
 }) => (
   <div className={'w-full h-full'}>
     <div className={'flex flex-col space-y-3'}>
@@ -47,6 +49,12 @@ const InitialNutrient = ({
         <div className={'flex h-6 w-6 aspect-square mr-2'}>
           <Bot className='fill-zinc-300 h-3/4 w-3/4' />
         </div>
+
+        {invalidImage && (
+          <p className='text-sm text-zinc-500 font-bold break-words whitespace-normal max-w-[500px] pb-2'>
+            Food image only 🫡
+          </p>
+        )}
 
         <div className='flex flex-col items-start justify-start'>
           <p className='md:text-sm text-xs text-zinc-500 font-bold break-words whitespace-normal max-w-[500px] pb-2'>
@@ -91,6 +99,7 @@ export async function askAi(imageUrl: string) {
       let summary = null;
 
       const splitContent = content.split('Short summary of the image:');
+      const invalidImage = content.includes('Sorry');
 
       summary = splitContent[1]?.split('\n')[0].trim() ?? null;
 
@@ -115,7 +124,14 @@ export async function askAi(imageUrl: string) {
         streamableValue.done();
       }
 
-      return <InitialNutrient nutrients={nutritionalObject} summary={summary} imageUrl={imageUrl} />;
+      return (
+        <InitialNutrient
+          nutrients={nutritionalObject}
+          summary={summary}
+          imageUrl={imageUrl}
+          invalidImage={invalidImage}
+        />
+      );
     },
   });
 
