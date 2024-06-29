@@ -105,7 +105,7 @@ export default function ChatWrapper() {
                 });
               }}
             >
-              <TimerResetIcon className='md:h-10 md:w-10 h-5 w-10 text-zinc-700 hover:text-zinc-800 cursor-pointer hover:-translate-y-1 transition-all active:translate-y-0' />
+              <TimerResetIcon className='md:h-10 md:w-10 h-5 w-5 text-zinc-700 hover:text-zinc-800 cursor-pointer hover:-translate-y-1 transition-all active:translate-y-0' />
             </Button>
             {totalNutrients.calories !== null && totalNutrients.protein !== null && (
               <div className='text-xs break-words whitespace-normal flex space-x-2 text-muted-foreground'>
