@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   description: 'Calories Tracker AI',
   keywords: ['calories, ai, chatgpt, nutrition'],
   openGraph: {
-    url: 'https://calories-tracker-ai.vercel.app/',
+    url: 'https://cal-tracker-ai.vercel.app/og.png/',
     title: 'Calories Tracker AI',
     description: 'Calories Tracker AI',
     images: [
       {
-        url: '/og.png',
+        url: 'https://cal-tracker-ai.vercel.app/og.png/',
         width: 1200,
         height: 630,
         alt: 'Calories Tracker AI',
@@ -24,12 +24,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: 'https://calories-tracker-ai.vercel.app/',
+    site: 'https://cal-tracker-ai.vercel.app/og.png/',
     title: 'Calories Tracker AI',
     description: 'Calories Tracker AI',
     images: [
       {
-        url: 'https://calories-tracker-ai.vercel.app/og.png',
+        url: 'https://cal-tracker-ai.vercel.app/og.png/',
         width: 1200,
         height: 630,
         alt: 'Calories Tracker AI',

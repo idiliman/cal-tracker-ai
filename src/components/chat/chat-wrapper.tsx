@@ -73,15 +73,8 @@ export default function ChatWrapper() {
             <div className='flex items-end justify-end'>
               <div>
                 <div className='text-center text-xs text-muted-foreground'>{todayDate}</div>
-                <div className='relative aspect-square md:w-[300px] w-[250] h-full'>
-                  <Image
-                    src={selectedImageUrl}
-                    alt='image'
-                    width={300}
-                    height={300}
-                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                    className='w-full h-full object-cover rounded-md'
-                  />
+                <div className='relative aspect-square md:w-[350px] w-[300px] h-full'>
+                  <Image src={selectedImageUrl} alt='image' fill className='w-full h-full object-cover rounded-md' />
                 </div>
               </div>
 

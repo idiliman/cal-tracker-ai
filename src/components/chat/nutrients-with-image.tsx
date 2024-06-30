@@ -22,24 +22,8 @@ const NutrientsWithImage = () => {
                 <div className='flex items-end justify-end'>
                   <div>
                     <div className='text-center text-xs text-muted-foreground'>{todayDate}</div>
-                    <div className='relative aspect-square md:w-[300px] w-[250] h-full'>
-                      <Image
-                        src={n.imageUrl}
-                        alt='image'
-                        width={300}
-                        height={300}
-                        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-                        className='w-full h-full object-cover rounded-md'
-                      />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      {/* <img
-                        src={n.imageUrl}
-                        alt='image'
-                        loading='lazy'
-                        width={300}
-                        height={300}
-                        className='w-full h-full object-cover rounded-md'
-                      /> */}
+                    <div className='relative aspect-square md:w-[350px] w-[300px] h-full'>
+                      <Image src={n.imageUrl} alt='image' fill className='w-full h-full object-cover rounded-md' />
                     </div>
                   </div>
 
