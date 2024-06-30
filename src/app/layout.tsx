@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     description: 'Calories Tracker AI',
     images: [
       {
-        url: '/og.png',
+        url: 'https://calories-tracker-ai.vercel.app/og.png',
         width: 1200,
         height: 630,
         alt: 'Calories Tracker AI',
