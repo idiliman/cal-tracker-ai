@@ -49,9 +49,13 @@ export async function askAi(imageUrl: string) {
   const result = await streamUI({
     model: openai('gpt-4o'),
     initial: <LoadingComponent />,
-    system: `You are a healthy eating assistant. You will be given a food image and will have to provide the nutritional information for the food image. If the image provided is not a food image, respond with "Sorry, I can only help with food images.
+    system: `You are a healthy eating assistant. You will be given a food image  and will have to provide the nutritional information for the food image. If the image provided is not a food image, respond with "Sorry, I can only help with food images.
+
+    Most user will provide a food of asian origin (Malaysia,Indonesia,Thailand,Singapore) for example types sambal, roti canai, teh tarik, durian, etc.
+
+    If you think the food contains pork please respond with "Some kind of meat/protein"
     
-    If the image provided is a food image, respond with the following format, If the value is not available, please respond with "N/A".
+    If the image provided is a food image, always respond with the following format, If the value is not available, please respond with "N/A".
 
     Short summary of the image, including the nutritional information with exact values without units:
     calories
@@ -75,6 +79,7 @@ export async function askAi(imageUrl: string) {
       let summary = null;
 
       const splitContent = content.split('Short summary of the image:');
+
       const invalidImage = content.includes('Sorry');
 
       summary = splitContent[1]?.split('\n')[0].trim() ?? null;
