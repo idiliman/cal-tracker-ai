@@ -7,13 +7,13 @@ import { useCallback, useState } from 'react';
 import { useDropzone } from '@uploadthing/react';
 import { generateClientDropzoneAccept } from 'uploadthing/client';
 import { useUploadThing } from '@/utils/uploadthing';
-import { sleep } from '@/lib/utils';
 
 interface Props {
   onUploaded: (url: string) => void;
+  onSelect: (url: File[]) => void;
 }
 
-export default function UploadButton({ onUploaded }: Props) {
+export default function UploadButton({ onUploaded, onSelect }: Props) {
   const [progress, setProgress] = useState<number>(0);
 
   const { startUpload, permittedFileInfo, isUploading } = useUploadThing('imageUploader', {
@@ -33,9 +33,10 @@ export default function UploadButton({ onUploaded }: Props) {
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
+      onSelect(acceptedFiles);
       startUpload(acceptedFiles);
     },
-    [startUpload]
+    [onSelect, startUpload]
   );
 
   const fileTypes = permittedFileInfo?.config ? Object.keys(permittedFileInfo?.config) : [];

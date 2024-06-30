@@ -4,12 +4,9 @@ import Nutriens from '@/components/nutriens';
 import { Skeleton } from '@/components/ui/skeleton';
 import { openai } from '@ai-sdk/openai';
 import { createStreamableValue, streamUI } from 'ai/rsc';
-import { format } from 'date-fns';
-import { Bot, User } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 const LoadingComponent = () => <Skeleton className='h-12 w-12 rounded-full' />;
-
-const todayDate = format(new Date(), 'yyyy-MM-dd');
 
 const InitialNutrient = ({
   nutrients,
@@ -24,27 +21,6 @@ const InitialNutrient = ({
 }) => (
   <div className={'w-full h-full'}>
     <div className={'flex flex-col space-y-3'}>
-      <div className='flex items-end justify-end'>
-        <div>
-          <div className='text-center text-xs text-muted-foreground'>{todayDate}</div>
-          <div className='relative aspect-square md:w-[300px] w-[250] h-full'>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imageUrl}
-              alt='image'
-              loading='lazy'
-              width={300}
-              height={300}
-              className='w-full h-full object-cover rounded-md'
-            />
-          </div>
-        </div>
-
-        <div className={'flex h-6 w-6 aspect-square ml-2'}>
-          <User className='fill-zinc-300 h-3/4 w-3/4' />
-        </div>
-      </div>
-
       <div className='flex items-start justify-start'>
         <div className={'flex h-6 w-6 aspect-square mr-2'}>
           <Bot className='fill-zinc-300 h-3/4 w-3/4' />

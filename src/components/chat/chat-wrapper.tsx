@@ -11,12 +11,15 @@ import { ReactNode, useEffect, useState, useTransition } from 'react';
 import { askAi } from '@/app/actions';
 import useNutrientsStore, { UserNutrients } from '@/hooks/nutriens';
 import { readStreamableValue } from 'ai/rsc';
-import { extractNumber } from '@/lib/utils';
+import { cn, extractNumber } from '@/lib/utils';
+import Image from 'next/image';
+import { format, set } from 'date-fns';
 
 export default function ChatWrapper() {
   const [isClient, setIsClient] = useState(false);
   const [streamUi, setStreamUi] = useState<ReactNode | undefined>();
   const [streamImageUrl, setStreamImageUrl] = useState<string | undefined>();
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | undefined>();
   const [toPush, setToPush] = useState<UserNutrients[]>([]);
   const [totalNutrients, setTotalNutrients] = useState<{
     calories: number | null;
@@ -30,18 +33,6 @@ export default function ChatWrapper() {
   const [isPending, startTransition] = useTransition();
 
   const handleSubmit = (imageUrl: string) => {
-    setStreamImageUrl(undefined);
-    setStreamUi(undefined);
-    setStreamImageUrl(imageUrl);
-
-    if (toPush.length > 0) {
-      addUserNutrients({
-        summary: toPush[0].summary,
-        imageUrl: toPush[0].imageUrl,
-        nutrients: toPush[0].nutrients,
-      });
-    }
-
     startTransition(async () => {
       try {
         const { stream, ui } = await askAi(imageUrl);
@@ -65,6 +56,7 @@ export default function ChatWrapper() {
       }
     });
   };
+  const todayDate = format(new Date(), 'yyyy-MM-dd');
 
   useEffect(() => {
     setIsClient(true);
@@ -77,9 +69,33 @@ export default function ChatWrapper() {
       {/* Content */}
       <div className='justify-between flex flex-col md:max-h-[calc(100vh-100px)] md:min-h-[calc(100vh-100px)] h-[100vh] p-3'>
         <div className='flex flex-col space-y-9 py-2'>
-          {isPending && streamUi === undefined && <InitialSkeleton />}
+          {selectedImageUrl && (
+            <div className='flex items-end justify-end'>
+              <div>
+                <div className='text-center text-xs text-muted-foreground'>{todayDate}</div>
+                <div className='relative aspect-square md:w-[300px] w-[250] h-full'>
+                  <Image
+                    src={selectedImageUrl}
+                    alt='image'
+                    width={300}
+                    height={300}
+                    sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                    className='w-full h-full object-cover rounded-md'
+                  />
+                </div>
+              </div>
+
+              <div className={cn('flex h-6 w-6 aspect-square ml-2')}>
+                <User className='fill-zinc-300 h-3/4 w-3/4' />
+              </div>
+            </div>
+          )}
+
           {streamUi}
-          {streamUi === undefined && !isPending && userNutrients.length === 0 && <>upload something...</>}
+          {selectedImageUrl && streamUi === undefined && <InitialSkeleton />}
+          {streamUi === undefined && !isPending && userNutrients.length === 0 && !selectedImageUrl && (
+            <>upload something...</>
+          )}
           <NutrientsWithImage />
         </div>
       </div>
@@ -93,6 +109,23 @@ export default function ChatWrapper() {
                   onUploaded={(url) => {
                     handleSubmit(url);
                   }}
+                  onSelect={async (files) => {
+                    setStreamUi(undefined);
+                    setSelectedImageUrl(undefined);
+
+                    if (toPush.length > 0) {
+                      addUserNutrients({
+                        summary: toPush[0].summary,
+                        imageUrl: toPush[0].imageUrl,
+                        nutrients: toPush[0].nutrients,
+                      });
+                      setSelectedImageUrl(undefined);
+                    }
+
+                    setSelectedImageUrl(URL.createObjectURL(files[0]));
+
+                    // setSelectedImageUrl(URL.createObjectURL(files[0]));
+                  }}
                 />
               )}
             </Button>
@@ -105,6 +138,7 @@ export default function ChatWrapper() {
                   resetUserNutrients();
                   setToPush([]);
                   setStreamImageUrl(undefined);
+                  setSelectedImageUrl(undefined);
                   setStreamUi(undefined);
                   totalNutrients.calories = null;
                   totalNutrients.protein = null;
@@ -150,7 +184,7 @@ const InitialSkeleton = () => {
   return (
     <div className='flex flex-col space-y-9 py-2'>
       <div className='flex flex-col space-y-3'>
-        <div className={'flex items-end justify-end'}>
+        {/* <div className={'flex items-end justify-end'}>
           <div>
             <div className='items-center justify-center flex pb-2'>
               <Skeleton className='w-[50px] h-4 rounded-md' />
@@ -163,7 +197,7 @@ const InitialSkeleton = () => {
           <div className={'flex h-6 w-6 aspect-square ml-2'}>
             <User className='fill-zinc-300 h-3/4 w-3/4' />
           </div>
-        </div>
+        </div> */}
 
         <div className='flex items-start justify-start'>
           <div className={'flex h-6 w-6 aspect-square mr-2'}>
