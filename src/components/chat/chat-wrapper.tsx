@@ -79,7 +79,7 @@ export default function ChatWrapper() {
         <div className='flex flex-col space-y-9 py-2'>
           {streamUi === undefined && !isPending && userNutrients.length === 0 && <>upload something...</>}
           {isPending && <InitialSkeleton />}
-          {!isPending && streamUi && streamUi}
+          {streamUi}
           <NutrientsWithImage />
         </div>
       </div>
