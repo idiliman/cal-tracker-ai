@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '../ui/button';
-import { Bot, TimerResetIcon, User } from 'lucide-react';
+import { Bot, Loader, RotateCw, User } from 'lucide-react';
 import { Card } from '../ui/card';
 import UploadButton from './upload-button';
 import { Skeleton } from '../ui/skeleton';
@@ -77,22 +77,26 @@ export default function ChatWrapper() {
       {/* Content */}
       <div className='justify-between flex flex-col md:max-h-[calc(100vh-100px)] md:min-h-[calc(100vh-100px)] h-[100vh] p-3'>
         <div className='flex flex-col space-y-9 py-2'>
-          {(isPending || streamUi === undefined) && <InitialSkeleton />}
+          {streamUi === undefined && !isPending && userNutrients.length === 0 && <>upload something...</>}
+          {isPending && <InitialSkeleton />}
           {!isPending && streamUi && streamUi}
           <NutrientsWithImage />
         </div>
       </div>
       {/* Footer */}
       <div className='absolute bottom-5 md:bottom-10 left-0 right-0 flex flex-col justify-between p-3 '>
-        <div className='bg-gray-500 rounded-full  backdrop-blur-2xl md:bg-opacity-5 bg-opacity-10 border border-gray-100 w-[300px] h-[50px] mx-auto flex items-center justify-center'>
+        <div className='bg-white/30 rounded-full backdrop-blur-xl border border-gray-100 w-[300px] h-[50px] mx-auto flex items-center justify-center'>
           <div className='flex items-center justify-evenly'>
             <Button disabled={isPending} variant='link'>
-              <UploadButton
-                onUploaded={(url) => {
-                  handleSubmit(url);
-                }}
-              />
+              {!isPending && (
+                <UploadButton
+                  onUploaded={(url) => {
+                    handleSubmit(url);
+                  }}
+                />
+              )}
             </Button>
+            {isPending && <Loader className='h-4 w-4 animate-spin' />}
             <Button
               disabled={isPending}
               variant='link'
@@ -105,15 +109,17 @@ export default function ChatWrapper() {
                 });
               }}
             >
-              <TimerResetIcon className='md:h-10 md:w-10 h-5 w-5 text-zinc-700 hover:text-zinc-800 cursor-pointer hover:-translate-y-1 transition-all active:translate-y-0' />
+              {!isPending && (
+                <RotateCw className='md:h-10 md:w-10 h-5 w-5 text-zinc-950 md:text-zinc-700 hover:text-zinc-800 cursor-pointer hover:-translate-y-1 transition-all active:translate-y-0' />
+              )}
             </Button>
-            {totalNutrients.calories !== null && totalNutrients.protein !== null && (
-              <div className='text-xs break-words whitespace-normal flex space-x-2 text-muted-foreground'>
+            {totalNutrients.calories !== null && totalNutrients.protein !== null && isPending === false && (
+              <div className='text-xs break-words whitespace-normal flex space-x-2 text-muted-foreground text-zinc-950'>
                 <div>
-                  Calories: <p className='text-zinc-500'>{totalNutrients.calories}</p>
+                  Calories: <p>{totalNutrients.calories}</p>
                 </div>
                 <div>
-                  Proteins:<p className='text-zinc-500'>{totalNutrients.protein}</p>
+                  Proteins:<p>{totalNutrients.protein}</p>
                 </div>
               </div>
             )}
