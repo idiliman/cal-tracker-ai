@@ -39,7 +39,7 @@ const NutrientsWithImage = () => {
 
                   <div className='flex flex-col items-start justify-start'>
                     <p className='md:text-sm text-xs text-zinc-500 font-bold break-words whitespace-normal max-w-[500px] pb-2'>
-                      {n.summary}
+                      {n.summary && n.summary?.length > 0 ? n.summary : 'Food image only 🫡'}
                     </p>
                     <Nutriens nutrients={n.nutrients} />
                   </div>
