@@ -77,9 +77,9 @@ export default function ChatWrapper() {
       {/* Content */}
       <div className='justify-between flex flex-col md:max-h-[calc(100vh-100px)] md:min-h-[calc(100vh-100px)] h-[100vh] p-3'>
         <div className='flex flex-col space-y-9 py-2'>
-          {streamUi === undefined && !isPending && userNutrients.length === 0 && <>upload something...</>}
-          {isPending && <InitialSkeleton />}
+          {isPending && streamUi === undefined && <InitialSkeleton />}
           {streamUi}
+          {streamUi === undefined && !isPending && userNutrients.length === 0 && <>upload something...</>}
           <NutrientsWithImage />
         </div>
       </div>
@@ -106,6 +106,8 @@ export default function ChatWrapper() {
                   setToPush([]);
                   setStreamImageUrl(undefined);
                   setStreamUi(undefined);
+                  totalNutrients.calories = null;
+                  totalNutrients.protein = null;
                 });
               }}
             >
